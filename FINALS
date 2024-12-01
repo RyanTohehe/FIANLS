@@ -1,0 +1,998 @@
+using System;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq.Expressions;
+using System.Reflection.Emit;
+using System.Reflection.Metadata;
+using System.Security.Principal;
+using System.Threading;
+using System.Transactions;
+using System.Windows;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+
+namespace FINALS
+{
+
+
+    class Program
+    {
+        static int level = 0;
+        static int counter = 1;
+        static int limit = 3;
+
+       
+        static void Main()
+        { 
+
+            string username, password;
+
+
+            
+            startup();
+
+            while (counter <= limit)
+            { 
+                coloring();
+               
+                int width = Console.WindowWidth / 2;
+                int height = (Console.WindowHeight / 2) + 14;
+
+
+               
+
+
+                //centers the user and pass
+
+                Console.Write("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\tUsername:");
+                username = Console.ReadLine();
+                Console.Write("\t\t\t\t\t\t\tPassword:");
+                password = Console.ReadLine();
+               
+              
+
+
+
+                if (username == "BSIT" && password == "1-1")
+                {
+                    //BLUE TEXT
+                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                    Console.Write("\t\t\t\t\t\t\t  Success!");
+                    Thread.Sleep(1200);//delays the clear
+                    
+                    //resets the color so the rest of the text is default color
+                    Console.ResetColor();
+                    Clear();
+                    loading();
+                    done();
+                    Clear();
+
+
+                    //Calls the Menu
+                    menu(false, 0);
+
+
+
+                    return;
+                }
+                else
+                {
+                    //RED TEXT
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write("\t\t\t\t\t\tIncorrect username or password");
+
+                    
+
+                    Console.ReadKey();
+                    Console.ResetColor();//resets the color to default
+
+                    Clear();
+
+
+
+                    //if true the program will terminate
+                    if (counter == limit)
+                    {
+                        Clear();
+                        Console.ResetColor();
+
+                        string blocked = @"
+                              _____           _                  ______ _                _            _    _ 
+                             /  ___|         | |                 | ___ \ |              | |          | |  | |
+                             \ `--. _   _ ___| |_ ___ _ __ ___   | |_/ / |     ___   ___| | _____  __| |  | |
+                              `--. \ | | / __| __/ _ \ '_ ` _ \  | ___ \ |    / _ \ / __| |/ / _ \/ _` |  | |
+                            / \__/ / |_| \__ \ ||  __/ | | | | | | |_/ / |___| (_) | (__|   <  __/ (_| |  |_|
+                             \____/ \__, |___/\__\___|_| |_| |_| \____/\_____/\___/ \___|_|\_\___|\__,_|  (_)
+                                      _/ |                                                                
+                                    |___/                        ";
+                        Console.WriteLine("\n\n\n\n\n\n\n\n\n\n\n");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(blocked);
+                        Console.ResetColor();
+                        Console.WriteLine("\n\n\n\n\n\n\n");
+
+                        //terminate the program
+                        return;
+                    }
+
+
+                }
+
+            }
+
+        }
+
+
+
+
+
+        static void menu(bool levelCHECKED, int again = 0, int credits = 0)
+        {
+            
+            //intialize the value of choice to avoid error 
+            char choice = 'Z';
+            bool switch_trigger = false;
+
+            //for positioning
+            int height = (Console.WindowHeight / 2) + 15;
+            int width = (Console.WindowWidth / 2) - 1;
+
+
+
+            //TABLE
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 51, (Console.WindowHeight / 2) - 6);
+            Console.Write(@"|-------------------------------------------------------------------------------------------------------------|");
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 51, (Console.WindowHeight / 2) - 4);
+            Console.WriteLine(@"|-------------------------------------------------------------------------------------------------------------|    ");
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 51, (Console.WindowHeight / 2) - 2);
+            Console.WriteLine(@"|-------------------------------------------------------------------------------------------------------------|    ");
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 51, (Console.WindowHeight / 2));
+            Console.WriteLine(@"|-------------------------------------------------------------------------------------------------------------|    ");
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 51, (Console.WindowHeight / 2) + 2);
+            Console.WriteLine(@"|-------------------------------------------------------------------------------------------------------------|    ");
+
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.SetCursorPosition((Console.WindowWidth / 2) + 5, (Console.WindowHeight / 2) - 15);
+            Console.WriteLine(@"   
+                                                  ,--.   ,--.                        
+                                                  |   `.'   | ,---. ,--,--, ,--.,--. 
+                                                  |  |'.'|  || .-. :|      \|  ||  | 
+                                                  |  |   |  |\   --.|  ||  |'  ''  ' 
+                                                  `--'   `--' `----'`--''--' `----'  
+                                  
+                                   
+                                     ");
+            Console.ResetColor();
+
+
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 51, (Console.WindowHeight / 2) - 5);
+            Console.WriteLine("|");
+
+            Console.SetCursorPosition((Console.WindowWidth / 2) + 59, (Console.WindowHeight / 2) - 5);
+            Console.WriteLine("|");
+
+
+            //basic
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 49, (Console.WindowHeight / 2) - 5);
+            Console.Write(@" 1.) Basic");
+            Console.ResetColor();
+            
+            //intermediate
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 24,(Console.WindowHeight / 2) - 5);
+            Console.Write(@"2.) Intermediate");
+            Console.ResetColor();
+            
+            //entertainment
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition((Console.WindowWidth / 2) + 7, (Console.WindowHeight / 2) - 5);
+            Console.Write(@"3.) Entertainment");
+            Console.ResetColor();
+            
+            //credits
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.SetCursorPosition((Console.WindowWidth / 2) + 36, (Console.WindowHeight / 2) - 5);
+            Console.Write("4.) Credits  \n\n");
+            Console.ResetColor();
+
+          
+
+            //first row
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 51, (Console.WindowHeight / 2) - 3);
+            Console.WriteLine("|  A.) Swapping            A.) Student Profile            A.) Game                 (List of Developers)       |     ");
+
+            //second row
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 51, (Console.WindowHeight / 2) - 1);
+            Console.WriteLine(@"|  B.) MDAS                B.) Graded Computation         B.) Freestyle                                       |      ");
+
+            //third row
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 51, (Console.WindowHeight / 2) + 1);
+            Console.WriteLine(@"|  C.) Highest Number      C.) Sale Transaction                                                               |     ");
+
+
+
+
+            if (level >= 5 || level <= 0) {
+                level = LevelCheck(level);
+            }
+
+            if (level <= 4 && level >= 1)
+            {
+                if (level == 4) 
+                {
+                    //for credits cuz wala syang choice
+                    credits = 1;
+                }
+                levelCHECKED = true;
+            }
+
+
+
+            //will be executed when level inputted is correct
+            if (credits != 1) {
+                if (levelCHECKED)
+                {
+                    //level will be printed again when choice is not correct
+                    if (again == 1)
+                    {
+                        Console.SetCursorPosition(width - 4, height - 9);
+                        Console.Write("Level:" + level);
+                    }
+
+                    if (choice != 'A' && choice != 'B' && choice != 'C')
+                    {
+                        choice = CharCheck(choice);
+                    }
+
+                }
+            }
+
+            //will be executed if choice is correct
+            if (choice == 'A' || choice == 'B' || choice == 'C') 
+            {
+                switch_trigger = true;
+            }
+
+            //Console.WriteLine($"{level}-{choice}");
+
+            if (switch_trigger)
+            { 
+                switch (level)
+                {
+                    case 1:
+                        switch (choice)
+                        {
+                            case 'A':
+                                Clear();
+                                Swapping();
+                                break;
+                            case 'B':
+                                Clear();
+                                MDAS();
+                                break;
+
+                            case 'C':
+                                Clear();
+                                highest_number();
+                                break;
+                        }
+                        break;
+                    case 2:
+                        switch (choice)
+                        {
+                            case 'A':
+                                Clear();
+                                StudentProfile();
+                                break;
+                            case 'B':
+                                Clear();
+                                GradeComputation();
+                                break;
+                            case 'C':
+                                Clear();
+                                SaleTransaction();
+                                break;
+                        }
+
+                        break;
+
+                    case 3:
+                        switch (choice)
+                        {
+                            case 'A':
+
+                                break;
+                            case 'B':
+
+                                break;
+                        }
+
+                        break;
+                    case 4:
+
+
+                        break;
+                }
+
+            }
+            
+        }
+
+        //log in AND menu
+        static int LevelCheck(int level)
+        { 
+            int checker = 0;
+            int height = (Console.WindowHeight / 2) + 15;
+            int width = (Console.WindowWidth / 2) - 1 ;
+
+         
+                Console.SetCursorPosition(width - 4,height - 9);
+                Console.Write("Level:");
+
+                try
+                {
+                    level = int.Parse(Console.ReadLine());
+                    if (level <= 4 && level >= 1)
+                    {
+                    checker = 1;
+                    }
+                    else
+                    {
+                        throw new ArgumentOutOfRangeException("Not valid level", nameof(level));
+                    }
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.SetCursorPosition(width - 17, height - 8);
+                    Console.Write(ex.Message);
+                    Console.ResetColor();
+                }
+                catch (Exception)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.SetCursorPosition(width - 14, height - 8);
+                    Console.Write("What the hell did u inputted?");
+                    Console.ResetColor();
+
+                }
+            
+
+            if (checker == 1)
+            {
+                //returns the correct level
+                return level;
+            }
+            else {
+
+                Console.ReadKey();
+                Clear();
+                menu(false, 0);
+                return 0;
+            }
+            
+            
+            
+        }
+
+        static char CharCheck(char choice)
+        {
+            int checker = 0;
+            int height = (Console.WindowHeight / 2) + 15;
+            int width = (Console.WindowWidth / 2) - 1;
+
+
+                Console.SetCursorPosition(width - 4, height - 8);
+                Console.Write("Choice:");
+
+                try
+                {
+                    choice = char.Parse(Console.ReadLine().ToUpper());
+                    if (choice == 'A' || choice == 'B' || choice == 'C')
+                    {
+                        checker = 1;
+                    }
+                    else
+                    {
+                        throw new FormatException("Only A-B-C!");
+                    }
+                }
+                catch (FormatException ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.SetCursorPosition(width - 5, height - 7);
+                    Console.Write(ex.Message);
+                    Console.ResetColor();
+
+            }
+                catch (Exception)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.SetCursorPosition(width - 4, height - 7);
+                    Console.Write("What the hell did u inputted?");
+                    Console.ResetColor();
+                   
+
+                }
+            
+
+            if (checker == 1)
+            {
+                return choice;
+            }
+            else
+            {
+                Console.ReadKey();
+                Clear();
+                menu(true, 1);
+                //so it returns false value so we can prompt the user again
+                return 'z';
+            }
+
+
+        }
+
+        static void dot() 
+        {
+            int dum = 3;
+            for (int j = 1; j <= 5; j++)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 11 + dum, (Console.WindowHeight / 2) + 1);
+                Console.Write(@"(_)");
+                Thread.Sleep(400);
+                Console.ResetColor();
+                dum += 3;
+            }
+
+        }
+
+        static void loading()
+        {
+
+            int dum = 3;
+            int load = 0;
+                Console.WriteLine("\n\n\n\n\n\n\n\n\n\n");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write(@" 
+                                          ,--.                     ,--.,--.                
+                                          |  |    ,---.  ,--,--. ,-|  |`--',--,--,  ,---.  
+                                          |  |   | .-. |' ,-.  |' .-. |,--.|      \| .-. | 
+                                          |  '--.' '-' '\ '-'  |\ `-' ||  ||  ||  |' '-' ' 
+                                          `-----' `---'  `--`--' `---' `--'`--''--'.`-  /  
+                                                                                   `---'   ");
+
+            //TABLE
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 23, (Console.WindowHeight / 2) + 2);
+                Console.WriteLine(@"|--------------------------------------------|");
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 23, (Console.WindowHeight / 2) + 4);
+                Console.WriteLine(@"|--------------------------------------------|");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 23, (Console.WindowHeight / 2) + 3);
+                Console.WriteLine(@"|");
+                Console.SetCursorPosition((Console.WindowWidth / 2) + 22, (Console.WindowHeight / 2) + 3);
+                Console.WriteLine(@"|");
+
+
+            
+
+            for (int i = 0; i <= 100; i+=20)
+                {
+
+                if (i != 0)
+                {
+                    for (int j = i; j <= i; j += 20)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.SetCursorPosition((Console.WindowWidth / 2) - 23 + load, (Console.WindowHeight / 2) + 3);
+                        Console.WriteLine(@"|||||||||");
+                        load += 9;
+                    }
+                }
+                    //for (int j = i; j <= i; j += 20)
+                    //    {
+                    //        Console.ForegroundColor = ConsoleColor.Blue;
+                    //        Console.SetCursorPosition((Console.WindowWidth / 2) + 21 + dum, (Console.WindowHeight / 2) + 1);
+                    //        Console.Write(@"(_)");
+                    //        Thread.Sleep(450)
+                    //        Console.ResetColor();
+                    //        dum+=3;
+                    //    }
+
+                    for (int j = i; j <= i; j += 20)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.SetCursorPosition((Console.WindowWidth / 2) - 2, (Console.WindowHeight / 2) + 5);
+                        Console.Write($"{i}%");
+                        Thread.Sleep(900);
+                        Console.ResetColor();
+                    }
+            }
+            Console.ResetColor();
+                Clear();
+        }
+
+        static void Clear()
+            {
+
+                Console.Clear();
+            }
+
+        static void Menu_Ask() 
+        {
+            string strmenu = @"
+                                                  ,--.   ,--.                        
+                                                  |   `.'   | ,---. ,--,--, ,--.,--. 
+                                                  |  |'.'|  || .-. :|      \|  ||  | 
+                                                  |  |   |  |\   --.|  ||  |'  ''  ' 
+                                                  `--'   `--' `----'`--''--' `----'  
+                                                                    ";
+            string menu_ag = @"
+                                                  Do you want to use the menu again?
+                                                  [1] Yes
+                                                  [2] No                
+                                                                    ";
+            string ty = @"
+                                                                                                     ,---. 
+                            --------.,--.                     ,--.        ,--.   ,--.,-----.         |   | 
+                           '--.  .--'|  ,---.  ,--,--.,--,--, |  |,-.      \  `.'  /'  .-.  ',--.,--.|  .' 
+                              |  |   |  .-.  |' ,-.  ||      \|     /       '.    / |  | |  ||  ||  ||  |  
+                              |  |   |  | |  |\ '-'  ||  ||  ||  \  \         |  |  '  '-'  ''  ''  '`--'  
+                              `--'   `--' `--' `--`--'`--''--'`--'`--'        `--'   `-----'  `----' .--.  
+                                                                                                     '--'               
+                                                                    ";
+            int choice = 0;
+            Clear();
+
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\n\n\n\n\n\n\n\n\n" + strmenu);
+            Console.ResetColor();
+
+            Console.WriteLine(menu_ag);
+
+
+
+            Console.Write("                                                 :");
+            choice = int.Parse(Console.ReadLine());
+
+            if (choice == 1)
+            {
+                Clear();
+                dot();
+                Clear();
+                level = 0;
+                menu(false, 0);
+                
+            }
+            else if (choice == 2) 
+            {
+                Clear();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\n\n\n\n\n\n\n\n\n\n\n" + ty);
+                Console.ResetColor();
+                Console.WriteLine("\n\n\n\n\n\n\n");
+            }
+            else
+            {
+                Console.WriteLine("                                              Invalid Choice!");
+                Clear();
+                Menu_Ask();
+            }
+            
+      
+        }
+
+        static void done() 
+        {
+            string done = @"
+                                                 _____                       _ 
+                                                |  __ \                     | |
+                                                | |  | |  ___   _ __   ___  | |
+                                                | |  | | / _ \ | '_ \ / _ \ | |
+                                                | |__| || (_) || | | || __/ |_|
+                                                |_____/  \___/ |_| |_|\___| (_)
+                                    ";
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n\n\n\n\n\n\n\n\n\n\n\n" + done);
+            Thread.Sleep(1000);
+            Console.ResetColor();
+        }
+
+        static void startup() 
+        {
+            string start = @"
+                     ____                                          _                _              _             _   
+                    |  _ \ _ __ ___  ___ ___    __ _ _ __  _   _  | | _____ _   _  | |_ ___    ___| |_ __ _ _ __| |_ 
+                    | |_) | '__/ _ \/ __/ __|  / _` | '_ \| | | | | |/ / _ \ | | | | __/ _ \  / __| __/ _` | '__| __|
+                    |  __/| | |  __/\__ \__ \ | (_| | | | | |_| | |   <  __/ |_| | | || (_) | \__ \ || (_| | |  | |_ 
+                    |_|   |_|  \___||___/___/  \__,_|_| |_|\__, | |_|\_\___|\__, |  \__\___/  |___/\__\__,_|_|   \__(_)
+                                                           |___/            |___/                                      ";
+
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.Write("\n\n\n\n\n\n\n\n\n\n\n\n\n" + start);
+            Console.ReadKey();
+            Clear();
+            Console.ResetColor();
+        }
+
+        static void coloring()
+        {
+            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Clear();
+        }
+      
+
+        //basic
+        static void Swapping() 
+        {
+            double num1, num2, num3, temp;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 15);
+            Console.WriteLine("Input Three Number to swap. ");
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 14);
+            Console.WriteLine("----------------------------");
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 13);
+            Console.WriteLine("\n\n");
+            Console.ResetColor();
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 12);
+            Console.Write("Input First Number:\t ");
+            num1 = double.Parse(Console.ReadLine());
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 11);
+            Console.Write("Input Second Number:\t ");
+            num2 = double.Parse(Console.ReadLine());
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 10);
+            Console.Write("Input Third Number:\t ");
+            num3 = double.Parse(Console.ReadLine());
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 9);
+
+            temp = num1;
+            num1 = num2;
+            num2 = num3;
+            num3 = temp;
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 8);
+            Console.WriteLine("----------------------------");
+
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 7);
+            Console.WriteLine("Here is the result: ");
+
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 5);
+            Console.Write("First Number =  {0}", num1);
+
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 4);
+            Console.Write("Second Number = {0}", num2);
+
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 3);
+            Console.Write("Third number =  {0}", num3);
+           
+
+
+            Console.ReadKey();
+            Clear();
+            Menu_Ask();
+        }
+
+        static void MDAS()
+        {
+            double num1, num2, num3;
+            char ope;
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 15);
+            Console.WriteLine("----------------------------------------------------------");
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 14);
+            Console.WriteLine("<  Input Three Number and Choose What Operator You Like > ");
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 13);
+            Console.WriteLine("----------------------------------------------------------");
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 12);
+            Console.ResetColor();
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 11);
+            Console.Write("Input First Number:\t ");
+            num1 = double.Parse(Console.ReadLine());
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 10);
+            Console.Write("Input Second Number:\t ");
+            num2 = double.Parse(Console.ReadLine());
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 9);
+            Console.Write("Input Third Number:\t ");
+            num3 = double.Parse(Console.ReadLine());
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 8);
+            Console.WriteLine("\n");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 7);
+            Console.Write("Select Operator (+, -, *, /):\t ");
+            ope = char.Parse(Console.ReadLine());
+            Console.ResetColor();
+
+            if (ope == '+')
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 4);
+                Console.Write("The result is =\t {0}", num1 + num2);
+            }
+            else if (ope == '-')
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 4);
+                Console.Write("The result is =\t {0}", num1 - num2);
+            }
+            else if (ope == '*')
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 4);
+                Console.Write("The result is =\t {0}", num1 * num2);
+            }
+            else if (ope == '/')
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 4);
+                Console.Write("The result is =\t {0:F2}", num1 / num2);
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 4);
+                Console.Write("Invalid Choice!");
+                Console.ReadKey();
+                Clear();
+                MDAS();
+            }
+          
+
+
+            Console.ReadKey();
+            Clear();
+            Menu_Ask();
+        }
+
+        static void highest_number() 
+        {
+            double num1, num2, num3;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 15);
+            Console.WriteLine("-------------------------------------------------------");
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 14);
+            Console.WriteLine(" <  Input Three Number and It Will Show The Highest >");
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 13);
+            Console.WriteLine("-------------------------------------------------------");
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 12);
+            Console.WriteLine("\n");
+            Console.ResetColor();
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 11);
+            Console.Write("Input First Number:\t ");
+            num1 = double.Parse(Console.ReadLine());
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 10);
+            Console.Write("Input Second Number:\t ");
+            num2 = double.Parse(Console.ReadLine());
+            Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 9);
+            Console.Write("Input Third Number:\t ");
+            num3 = double.Parse(Console.ReadLine());
+           
+
+            if (num1 > num2 && num1 > num3)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 7);
+                Console.Write("The highest number is\t {0}", num1);
+            }
+            else if (num2 > num3)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 6);
+                Console.Write("The highest number is\t {0}", num2);
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.SetCursorPosition((Console.WindowWidth / 2) - 26, (Console.WindowHeight / 2) - 5);
+                Console.Write("The highest number is\t {0}", num3);
+            }
+            
+
+
+            Console.ReadKey();
+            Clear();
+            Menu_Ask();
+        }
+
+        //intermediate
+        static void StudentProfile() 
+        {
+            int numofstudents;
+            Console.SetCursorPosition(20, 6);
+            Console.Write("Input number of students: ");
+            numofstudents = int.Parse(Console.ReadLine());
+            string[] fn = new string[numofstudents];
+            string[] mn = new string[numofstudents];
+            string[] ln = new string[numofstudents];
+            string[] section = new string[numofstudents];
+            string[] School = new string[numofstudents];
+            string head = ("Name\t\t\t  Section \t\tCourse");
+
+            for (int i = 0; i < numofstudents; i++)
+            {
+                Console.Clear();
+                Console.SetCursorPosition(20, 6);
+                Console.Write("Input First name: ");
+                fn[i] = Console.ReadLine();
+                Console.SetCursorPosition(20, 7);
+                Console.Write("Input Middle Name: ");
+                mn[i] = Console.ReadLine();
+                Console.SetCursorPosition(20, 8);
+                Console.Write("Input Last Name: ");
+                ln[i] = Console.ReadLine();
+                Console.SetCursorPosition(20, 9);
+                Console.Write("Input Section: ");
+                section[i] = Console.ReadLine();
+                Console.SetCursorPosition(20, 10);
+                Console.Write("Input School Campus: ");
+                School[i] = Console.ReadLine();
+                Console.Clear();
+                Console.SetCursorPosition(20, 1);
+                Console.WriteLine(head);
+            }
+            for (int i = 0; i < numofstudents; i++)
+            {
+                Console.WriteLine("\t\t-----------------------------------------------------------------------------------");
+                Console.WriteLine(" \t\t{0} {1} {2} \t\t{3}\t\t{4}", fn[i], mn[i], ln[i], section[i], School[i]);
+                Console.WriteLine("\t\t-----------------------------------------------------------------------------------");
+
+            }
+            Console.ReadKey();
+            Clear();
+            Menu_Ask();
+        }
+
+        static void GradeComputation() 
+        {
+            Console.SetCursorPosition(20, 5);
+            Console.Write("Enter Name: ");
+            string name = Console.ReadLine();
+            Console.SetCursorPosition(20, 6);
+            Console.Write("enter number of subjects: ");
+            int numofsub = int.Parse(Console.ReadLine());
+            Console.Clear();
+            string head = "\t\tSubject\t\tPrelims\t\tMidterms\tFinals\t\tAverage";
+
+            double t = 0, genave = 0;
+            string[] sub = new string[numofsub];
+            double[] pre = new double[numofsub];
+            double[] midt = new double[numofsub];
+            double[] fin = new double[numofsub];
+            double[] ave = new double[numofsub];
+
+            for (int i = 0; i < numofsub; i++)
+            {
+                Console.Clear();
+                Console.SetCursorPosition(20, 5);
+                Console.Write("Subject: ");
+                sub[i] = Console.ReadLine().Trim();
+                Console.SetCursorPosition(20, 6);
+                Console.Write("Prelim Grade: ");
+                pre[i] = Double.Parse(Console.ReadLine());
+                Console.SetCursorPosition(20, 7);
+                Console.Write("Midterm Grade: ");
+                midt[i] = Double.Parse(Console.ReadLine());
+                Console.SetCursorPosition(20, 8);
+                Console.Write("final Grade: ");
+                fin[i] = Double.Parse(Console.ReadLine());
+                Console.Clear();
+
+                ave[i] = (pre[i] + midt[i] + fin[i]) / 3;
+                t += ave[i];
+            }
+            Console.SetCursorPosition(0, 3);
+            Console.WriteLine("\t\tHi!{0}", name);
+            Console.WriteLine();
+            Console.SetCursorPosition(0, 4);
+            Console.WriteLine(head);
+            for (int i = 0; i < numofsub; i++)
+            {
+
+                Console.WriteLine("\t\t-----------------------------------------------------------------------------------");
+                Console.WriteLine("\t\t{0}\t\t{1}\t\t{2}\t\t{3}\t\t{4:F2}", sub[i], pre[i], midt[i], fin[i], ave[i]);
+                Console.WriteLine("\t\t-----------------------------------------------------------------------------------");
+                genave = t / numofsub;
+
+            }
+            Console.WriteLine("\t\tYour GWA is: {0:F2}", genave);
+            Console.ReadKey();
+            Clear();
+            Menu_Ask();
+        }
+
+        static void SaleTransaction()
+        {
+        string[] foodItems = { "Pizza", "Burger Steak", "Creatine", "Coke", "Jolly Hotdog" };
+                double[] foodPrices = { 20.00, 50.00, 30.00, 25.00, 49.00 };
+                int[] foodQuantities = new int[foodItems.Length];
+
+                bool ordering = true;
+
+                while (ordering)
+                {
+
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.SetCursorPosition(50, 8);
+                    Console.WriteLine("==== M e n u ====");
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.SetCursorPosition(18, 9);
+                    Console.WriteLine("--------------------------------------------------------------------------------");
+                    Console.SetCursorPosition(18, 10);
+                    Console.WriteLine("|                                                                              |");
+                    Console.SetCursorPosition(25, 10);
+                    Console.WriteLine("1. Pizza - 20.00   2. Burger Steak - 50.00   3. Creatine - 30.00");
+                    Console.SetCursorPosition(18, 11);
+                    Console.WriteLine("--------------------------------------------------------------------------------");
+                    Console.SetCursorPosition(18, 12);
+                    Console.WriteLine("|                                                                              |");
+                    Console.SetCursorPosition(25, 12);
+                    Console.WriteLine("4. Coke - 25.00   5. Jolly Hotdog - 49.00    0. Finish Order");
+                    Console.SetCursorPosition(18, 13);
+                    Console.WriteLine("--------------------------------------------------------------------------------");
+                    Console.SetCursorPosition(18, 14);
+                    Console.WriteLine("Input 0 to finish order 🙂");
+                    Console.SetCursorPosition(18, 15);
+
+                    Console.Write("Input Order : ");
+                    int choice1 = int.Parse(Console.ReadLine());
+
+                    if (choice1 == 0)
+                    {
+                        ordering = false;
+                        break;
+                    }
+
+                    switch (choice1)
+                    {
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                            Console.SetCursorPosition(18, 15);
+                            Console.WriteLine($"{foodItems[choice1 - 1]} Selected");
+                            Console.SetCursorPosition(18, 16);
+                            Console.Write("Enter quantity: ");
+                            int quantity = int.Parse(Console.ReadLine());
+                            foodQuantities[choice1 - 1] += quantity;
+                            break;
+                        default:
+                            Console.SetCursorPosition(18, 15);
+                            Console.WriteLine("Invalid selection, please try again.");
+                            break;
+                    }
+                }
+
+                double totalPrice = 0;
+                Console.SetCursorPosition(0, 18);
+                Console.WriteLine("Order Summary:");
+                for (int i = 0; i < foodItems.Length; i++)
+                {
+                    if (foodQuantities[i] > 0)
+                    {
+                        double itemTotal = foodQuantities[i] * foodPrices[i];
+
+                        Console.WriteLine($"{foodItems[i]}: {foodQuantities[i]} x P{foodPrices[i]:0.00} = P{itemTotal:0.00}");
+                        totalPrice += itemTotal;
+                    }
+                }
+
+                Console.WriteLine($"Total Price: P{totalPrice:0.00}");
+                Console.WriteLine("Thank you for your order!");
+                Console.ReadKey();
+                Clear();
+                Menu_Ask();
+        }
+
+
+
+    }
+}
